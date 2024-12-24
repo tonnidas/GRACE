@@ -58,3 +58,33 @@ DBLP:
   tau: 0.7
   num_epochs: 1000
   weight_decay: 0.00001
+WikiCS:
+  seed: 83521
+  learning_rate: 0.01
+  num_hidden: 256
+  num_proj_hidden: 256
+  activation: 'prelu'
+  base_model: 'GCNConv'
+  num_layers: 2
+  drop_edge_rate_1: 0.2
+  drop_edge_rate_2: 0.3
+  drop_feature_rate_1: 0.1
+  drop_feature_rate_2: 0.1
+  tau: 0.4
+  num_epochs: 3000
+  weight_decay: 0.00001
+Amazon-Photo:
+  seed: 39788
+  learning_rate: 0.1
+  num_hidden: 256
+  num_proj_hidden: 64
+  activation: relu
+  base_model: 'GCNConv'
+  num_layers: 2
+  drop_edge_rate_1: 0.3
+  drop_edge_rate_2: 0.5
+  drop_feature_rate_1: 0.1
+  drop_feature_rate_2: 0.1
+  tau: 0.3
+  num_epochs: 2000
+  weight_decay: 0.00001

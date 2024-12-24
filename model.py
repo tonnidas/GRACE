@@ -69,7 +69,7 @@ class Model(torch.nn.Module):
         return torch.mm(z1, z2.t())
 
     def semi_loss(self, z1: torch.Tensor, z2: torch.Tensor):
-        f = lambda x: torch.exp(x / self.tau)
+        def f(x): return torch.exp(x / self.tau)
         refl_sim = f(self.sim(z1, z1))
         between_sim = f(self.sim(z1, z2))
 
@@ -83,7 +83,7 @@ class Model(torch.nn.Module):
         device = z1.device
         num_nodes = z1.size(0)
         num_batches = (num_nodes - 1) // batch_size + 1
-        f = lambda x: torch.exp(x / self.tau)
+        def f(x): return torch.exp(x / self.tau)
         indices = torch.arange(0, num_nodes).to(device)
         losses = []
 
@@ -115,14 +115,3 @@ class Model(torch.nn.Module):
         ret = ret.mean() if mean else ret.sum()
 
         return ret
-
-
-def drop_feature(x, drop_prob):
-    drop_mask = torch.empty(
-        (x.size(1), ),
-        dtype=torch.float32,
-        device=x.device).uniform_(0, 1) < drop_prob
-    x = x.clone()
-    x[:, drop_mask] = 0
-
-    return x

@@ -11,12 +11,15 @@ from torch_geometric.utils import dropout_adj
 from model import Encoder, Model
 from eval import label_classification
 from gca import get_drop_weights, get_feature_weights
+from experiment import get_drop_edge_probs
 from dataset import get_dataset
 from utils import get_activation, get_base_model, drop_edge_weighted, drop_feature_weighted, drop_feature
 
 
 def _drop_edge(edge_index, drop_edge_rate):
-    if args.drop_scheme in ['degree', 'evc', 'pr']:
+    if args.drop_scheme in ['hop', 'softmax']:
+        return drop_edge_weighted(edge_index, drop_edge_probs, drop_edge_rate, threshold=0.7)
+    elif args.drop_scheme in ['degree', 'evc', 'pr']:
         return drop_edge_weighted(edge_index, gca_drop_weights, drop_edge_rate, threshold=0.7)
     else:
         return dropout_adj(edge_index, p=drop_edge_rate)[0]
@@ -96,7 +99,10 @@ if __name__ == '__main__':
     data = data.to(device)
 
     # ============================================================================
-    if args.drop_scheme in ['degree', 'evc', 'pr']:
+    if args.drop_scheme in ['hop', 'softmax']:
+        drop_edge_probs = get_drop_edge_probs(
+            data.edge_index, args.drop_scheme).to(device)
+    elif args.drop_scheme in ['degree', 'evc', 'pr']:
         gca_drop_weights = get_drop_weights(data, args.drop_scheme).to(device)
         gca_feature_weights = get_feature_weights(
             args.dataset, data, args.drop_scheme).to(device)

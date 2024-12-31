@@ -19,7 +19,6 @@ def repeat(n_times):
                 statistics[key] = {
                     'mean': np.mean(values),
                     'std': np.std(values)}
-            print_statistics(statistics, f.__name__)
             return statistics
         return wrapper
     return decorator
@@ -33,18 +32,6 @@ def prob_to_one_hot(y_pred):
     return ret
 
 
-def print_statistics(statistics, function_name):
-    print(f'(E) | {function_name}:', end=' ')
-    for i, key in enumerate(statistics.keys()):
-        mean = statistics[key]['mean']
-        std = statistics[key]['std']
-        print(f'{key}={mean:.4f}+-{std:.4f}', end='')
-        if i != len(statistics.keys()) - 1:
-            print(',', end=' ')
-        else:
-            print()
-
-
 @repeat(3)
 def label_classification(embeddings, y, ratio):
     X = embeddings.detach().cpu().numpy()
@@ -55,15 +42,13 @@ def label_classification(embeddings, y, ratio):
 
     X = normalize(X, norm='l2')
 
-    X_train, X_test, y_train, y_test = train_test_split(X, Y,
-                                                        test_size=1 - ratio)
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=1 - ratio)
 
     logreg = LogisticRegression(solver='liblinear')
     c = 2.0 ** np.arange(-10, 10)
 
     clf = GridSearchCV(estimator=OneVsRestClassifier(logreg),
-                       param_grid=dict(estimator__C=c), n_jobs=8, cv=5,
-                       verbose=0)
+                       param_grid=dict(estimator__C=c), n_jobs=8, cv=5, verbose=0)
     clf.fit(X_train, y_train)
 
     y_pred = clf.predict_proba(X_test)

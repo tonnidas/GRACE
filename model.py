@@ -55,8 +55,7 @@ class Model(torch.nn.Module):
         self.fc1 = torch.nn.Linear(num_hidden, num_proj_hidden)
         self.fc2 = torch.nn.Linear(num_proj_hidden, num_hidden)
 
-    def forward(self, x: torch.Tensor,
-                edge_index: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, edge_index: torch.Tensor) -> torch.Tensor:
         return self.encoder(x, edge_index)
 
     def projection(self, z: torch.Tensor) -> torch.Tensor:

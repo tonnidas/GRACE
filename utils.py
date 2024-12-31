@@ -81,8 +81,7 @@ def generate_split(num_samples: int, train_ratio: float, val_ratio: float):
     val_len = int(num_samples * val_ratio)
     test_len = num_samples - train_len - val_len
 
-    train_set, test_set, val_set = random_split(
-        torch.arange(0, num_samples), (train_len, test_len, val_len))
+    train_set, test_set, val_set = random_split(torch.arange(0, num_samples), (train_len, test_len, val_len))
 
     idx_train, idx_test, idx_val = train_set.indices, test_set.indices, val_set.indices
     train_mask = torch.zeros((num_samples,)).to(torch.bool)

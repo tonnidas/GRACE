@@ -2,6 +2,7 @@ import argparse
 import os.path as osp
 import random
 import yaml
+import numpy as np
 from yaml import SafeLoader
 from tqdm import tqdm
 
@@ -52,10 +53,10 @@ def train(model: Model, x, edge_index):
     return loss.item()
 
 
-def test(model: Model, x, edge_index, y, final=False):
+def test(model: Model, x, edge_index, y):
     model.eval()
     z = model(x, edge_index)
-    label_classification(z, y, ratio=0.1)
+    return label_classification(z, y, ratio=0.1)
 
 
 if __name__ == '__main__':
@@ -112,14 +113,20 @@ if __name__ == '__main__':
     encoder = Encoder(dataset.num_features, num_hidden, activation,
                       base_model=base_model, k=num_layers).to(device)
     model = Model(encoder, num_hidden, num_proj_hidden, tau).to(device)
-    optimizer = torch.optim.Adam(
-        model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
-    for epoch in tqdm(range(num_epochs), desc="Epochs"):
-        loss = train(model, data.x, data.edge_index)
-        # if (epoch+1) % 100 == 0:
-        #     print('Epoch:', epoch)
-        #     test(model, data.x, data.edge_index, data.y, final=False)
+    results_f1mi = []
+    results_f1ma = []
+    for run in range(5):
+        for epoch in tqdm(range(num_epochs), desc="Epochs"):
+            loss = train(model, data.x, data.edge_index)
+
+        result = test(model, data.x, data.edge_index, data.y)
+        f1mi, f1ma = result['F1Mi'], result['F1Ma']
+        print(f"Run: {run}, F1Mi: {f1mi['mean']:.4f}+-{f1mi['std']:.4f}, F1Ma: {f1ma['mean']:.4f}+-{f1ma['std']:.4f}")
+        
+        results_f1mi.append(f1mi['mean'])
+        results_f1ma.append(f1ma['mean'])
 
     print("=== Final ===")
-    test(model, data.x, data.edge_index, data.y, final=True)
+    print(f"F1Mi: {np.mean(results_f1mi):.4f}, F1Ma: {np.mean(results_f1ma):.4f}")

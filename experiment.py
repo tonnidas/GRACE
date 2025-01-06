@@ -1,15 +1,5 @@
 import torch
-from torch_geometric.utils import to_torch_coo_tensor
-from torch_geometric.utils import degree, to_undirected
-
-
-def get_drop_edge_probs(edge_index, drop_scheme):
-    if drop_scheme == 'hop':
-        return hop_drop_edge_probs(edge_index)
-    elif drop_scheme == 'softmax':
-        return softmax_drop_edge_probs(edge_index)
-    else:
-        return None
+from torch_geometric.utils import to_torch_coo_tensor, add_self_loops, degree, to_undirected
 
 
 def hop_drop_edge_probs(edge_index, k=3, hyper_p=1.0, cut_off_p=1.0):
@@ -46,8 +36,18 @@ def softmax_drop_edge_probs(edge_index):
     normalized_deg = node_deg / max(node_deg)
     exp_deg = torch.exp(normalized_deg)
 
-    adj = to_torch_coo_tensor(edge_index)
+    adj = to_torch_coo_tensor(add_self_loops(edge_index)[0])
     sum_neighbor_exp_deg = adj @ exp_deg
 
     u, v = edge_index[0], edge_index[1]
     return 1 - (exp_deg[u] + exp_deg[v]) / (sum_neighbor_exp_deg[u] + sum_neighbor_exp_deg[v])
+
+
+def softmax_drop_feature_probs(edge_index, X):
+    print('Calculating softmax_drop_feature_probs ...')
+
+    node_deg = degree(to_undirected(edge_index)[1])
+    normalized_deg = node_deg / max(node_deg)
+    feature_imp = X.T @ normalized_deg
+
+    return 1 - torch.softmax(feature_imp, dim=0)

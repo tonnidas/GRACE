@@ -11,24 +11,22 @@ from torch_geometric.utils import dropout_adj
 
 from model import Encoder, Model
 from eval import label_classification
-from gca import get_drop_weights, get_feature_weights
-from experiment import get_drop_edge_probs
+import gca
+import experiment
 from dataset import get_dataset
 from utils import get_activation, get_base_model, drop_edge_weighted, drop_feature_weighted, drop_feature
 
 
 def _drop_edge(edge_index, drop_edge_rate):
-    if args.drop_scheme in ['hop', 'softmax']:
+    if drop_edge_probs is not None:
         return drop_edge_weighted(edge_index, drop_edge_probs, drop_edge_rate, threshold=0.7)
-    elif args.drop_scheme in ['degree', 'evc', 'pr']:
-        return drop_edge_weighted(edge_index, gca_drop_weights, drop_edge_rate, threshold=0.7)
     else:
         return dropout_adj(edge_index, p=drop_edge_rate)[0]
 
 
 def _drop_feature(x, drop_feature_rate):
-    if args.drop_scheme in ['degree', 'evc', 'pr']:
-        return drop_feature_weighted(x, gca_feature_weights, drop_feature_rate)
+    if drop_feature_probs is not None:
+        return drop_feature_weighted(x, drop_feature_probs, drop_feature_rate)
     else:
         return drop_feature(x, drop_feature_rate)
 
@@ -57,6 +55,22 @@ def test(model: Model, x, edge_index, y):
     model.eval()
     z = model(x, edge_index)
     return label_classification(z, y, ratio=0.1)
+
+
+def get_drop_probs():
+    if args.drop_scheme in ['degree', 'evc', 'pr']:
+        drop_edge_probs = gca.get_drop_weights(data, args.drop_scheme)
+        drop_feature_probs = gca.get_feature_weights(args.dataset, data, args.drop_scheme)
+    elif args.drop_scheme == 'hop':
+        drop_edge_probs = experiment.hop_drop_edge_probs(data.edge_index)
+        drop_feature_probs = None
+    elif args.drop_scheme == 'softmax':
+        drop_edge_probs = experiment.softmax_drop_edge_probs(data.edge_index)
+        drop_feature_probs = experiment.softmax_drop_feature_probs(data.edge_index, data.x)
+    else:
+        drop_edge_probs, drop_feature_probs = None, None
+
+    return drop_edge_probs, drop_feature_probs
 
 
 if __name__ == '__main__':
@@ -99,19 +113,13 @@ if __name__ == '__main__':
 
     data = data.to(device)
 
-    # ============================================================================
-    if args.drop_scheme in ['hop', 'softmax']:
-        drop_edge_probs = get_drop_edge_probs(
-            data.edge_index, args.drop_scheme).to(device)
-    elif args.drop_scheme in ['degree', 'evc', 'pr']:
-        gca_drop_weights = get_drop_weights(data, args.drop_scheme).to(device)
-        gca_feature_weights = get_feature_weights(
-            args.dataset, data, args.drop_scheme).to(device)
+    drop_edge_probs, drop_feature_probs = get_drop_probs()
+    if drop_edge_probs is not None:
+        drop_edge_probs = drop_edge_probs.to(device)
+    if drop_feature_probs is not None:
+        drop_feature_probs = drop_feature_probs.to(device)
 
-    # ============================================================================
-
-    encoder = Encoder(dataset.num_features, num_hidden, activation,
-                      base_model=base_model, k=num_layers).to(device)
+    encoder = Encoder(dataset.num_features, num_hidden, activation, base_model=base_model, k=num_layers).to(device)
     model = Model(encoder, num_hidden, num_proj_hidden, tau).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
@@ -124,7 +132,7 @@ if __name__ == '__main__':
         result = test(model, data.x, data.edge_index, data.y)
         f1mi, f1ma = result['F1Mi'], result['F1Ma']
         print(f"Run: {run}, F1Mi: {f1mi['mean']:.4f}+-{f1mi['std']:.4f}, F1Ma: {f1ma['mean']:.4f}+-{f1ma['std']:.4f}")
-        
+
         results_f1mi.append(f1mi['mean'])
         results_f1ma.append(f1ma['mean'])
 

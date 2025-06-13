@@ -58,7 +58,7 @@ def test(model: Model, x, edge_index, y):
 
 
 def get_drop_probs():
-    if args.drop_scheme in ['degree', 'evc', 'pr']:
+    if args.drop_scheme in ['degree', 'evc', 'pr']: # GCA
         drop_edge_probs = gca.get_drop_weights(data, args.drop_scheme)
         drop_feature_probs = gca.get_feature_weights(args.dataset, data, args.drop_scheme)
     elif args.drop_scheme == 'hop':
@@ -67,7 +67,7 @@ def get_drop_probs():
     elif args.drop_scheme == 'softmax':
         drop_edge_probs = experiment.softmax_drop_edge_probs(data.edge_index)
         drop_feature_probs = experiment.softmax_drop_feature_probs(data.edge_index, data.x)
-    else:
+    else: # GRACE
         drop_edge_probs, drop_feature_probs = None, None
 
     return drop_edge_probs, drop_feature_probs
@@ -78,6 +78,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, required=True)
     parser.add_argument('--config', type=str, default='config.yaml')
     parser.add_argument('--drop_scheme', type=str, default='uniform')
+    parser.add_argument('--runs', type=int, default=1)
     args = parser.parse_args()
 
     config = yaml.load(open(args.config), Loader=SafeLoader)[args.dataset]
@@ -125,7 +126,7 @@ if __name__ == '__main__':
 
     results_f1mi = []
     results_f1ma = []
-    for run in range(5):
+    for run in range(args.runs):
         for epoch in tqdm(range(num_epochs), desc="Epochs"):
             loss = train(model, data.x, data.edge_index)
 

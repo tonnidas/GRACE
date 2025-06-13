@@ -7,7 +7,7 @@ from yaml import SafeLoader
 from tqdm import tqdm
 
 import torch
-from torch_geometric.utils import dropout_adj
+from torch_geometric.utils import dropout_edge
 
 from model import Encoder, Model
 from eval import label_classification
@@ -21,7 +21,7 @@ def _drop_edge(edge_index, drop_edge_rate):
     if drop_edge_probs is not None:
         return drop_edge_weighted(edge_index, drop_edge_probs, drop_edge_rate, threshold=0.7)
     else:
-        return dropout_adj(edge_index, p=drop_edge_rate)[0]
+        return dropout_edge(edge_index, p=drop_edge_rate)[0]
 
 
 def _drop_feature(x, drop_feature_rate):

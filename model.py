@@ -98,14 +98,64 @@ class Model(torch.nn.Module):
 
         return torch.cat(losses)
 
-    def loss(self, z1: torch.Tensor, z2: torch.Tensor,
+    def local_global_semi_loss(self, z1: torch.Tensor, z2: torch.Tensor, precalculated):        
+        N = z1.size(0)
+        eye = torch.eye(N)
+
+        C, B, D, W = precalculated["C"], precalculated["B"], precalculated["D"], precalculated["W"]
+
+        def f(x): return torch.exp(x / self.tau)
+        refl_sim = f(self.sim(z1, z1))
+        between_sim = f(self.sim(z1, z2))
+
+        # Denominator
+        DN = refl_sim.sum(1) + between_sim.sum(1) - refl_sim.diag()
+
+        # Pairwise similiarity
+        PS = between_sim.diag()
+
+        # Local similarity
+
+        C_mask = C * (1 - eye)
+        inter_view = (between_sim * C).sum(dim=1)
+        intra_view = (refl_sim * C_mask).sum(dim=1)
+
+        C_sizes = C.sum(dim=1)
+        LS = (inter_view + intra_view) * C_sizes / N
+
+        # Global similarity
+
+        d_max = D.max()
+        deg_i = D.view(-1, 1).expand(N, N)
+        deg_j = D.view(1, -1).expand(N, N)
+        deg_weight = 1 - (torch.abs(deg_i - deg_j) / d_max)
+
+        B_mask = B * (1 - eye)
+        weighted_B = deg_weight * B_mask
+
+        inter_view = (between_sim * weighted_B).sum(dim=1)
+        intra_view = (refl_sim * weighted_B).sum(dim=1)
+
+        B_sizes = B_mask.sum(dim=1)
+        GS = (inter_view + intra_view) * B_sizes / N
+
+        pairwise_weighted = (1 - W) * PS
+        local_global_weighted = W * (LS + GS)
+
+        return -torch.log((pairwise_weighted + local_global_weighted) / DN)
+
+    def loss(self, z1: torch.Tensor, z2: torch.Tensor, precalculated,
              mean: bool = True, batch_size: int = 0):
         h1 = self.projection(z1)
         h2 = self.projection(z2)
 
         if batch_size == 0:
-            l1 = self.semi_loss(h1, h2)
-            l2 = self.semi_loss(h2, h1)
+            if precalculated is None:
+                l1 = self.semi_loss(h1, h2)
+                l2 = self.semi_loss(h2, h1)
+            else:
+                l1 = self.local_global_semi_loss(h1, h2, precalculated)
+                l2 = self.local_global_semi_loss(h2, h1, precalculated)
         else:
             l1 = self.batched_semi_loss(h1, h2, batch_size)
             l2 = self.batched_semi_loss(h2, h1, batch_size)

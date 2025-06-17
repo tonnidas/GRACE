@@ -7,12 +7,12 @@ from yaml import SafeLoader
 from tqdm import tqdm
 
 import torch
-from torch_geometric.utils import dropout_edge
+from torch_geometric.utils import dropout_edge, degree
 
 from model import Encoder, Model
 from eval import label_classification
 import gca
-import experiment
+import experiment, precalculation
 from dataset import get_dataset
 from utils import get_activation, get_base_model, drop_edge_weighted, drop_feature_weighted, drop_feature
 
@@ -31,7 +31,7 @@ def _drop_feature(x, drop_feature_rate):
         return drop_feature(x, drop_feature_rate)
 
 
-def train(model: Model, x, edge_index):
+def train(model: Model, x, edge_index, precalculated):
     model.train()
     optimizer.zero_grad()
 
@@ -44,7 +44,7 @@ def train(model: Model, x, edge_index):
     z1 = model(x_1, edge_index_1)
     z2 = model(x_2, edge_index_2)
 
-    loss = model.loss(z1, z2, batch_size=0)
+    loss = model.loss(z1, z2, precalculated, batch_size=0)
     loss.backward()
     optimizer.step()
 
@@ -78,6 +78,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, required=True)
     parser.add_argument('--config', type=str, default='config.yaml')
     parser.add_argument('--drop_scheme', type=str, default='uniform')
+    parser.add_argument('--local_global_weight', type=float, default=0)
     parser.add_argument('--runs', type=int, default=1)
     args = parser.parse_args()
 
@@ -124,11 +125,20 @@ if __name__ == '__main__':
     model = Model(encoder, num_hidden, num_proj_hidden, tau).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
+    if args.local_global_weight > 0:
+        num_nodes = int(data.edge_index.max()) + 1
+        C = precalculation.compute_C(data.edge_index)
+        B = precalculation.compute_B(data.edge_index, C)
+        D = degree(data.edge_index[0], num_nodes=num_nodes)
+        precalculated = {"C": C, "B": B, "D": D, "W": args.local_global_weight}
+    else:
+        precalculated = None
+
     results_f1mi = []
     results_f1ma = []
     for run in range(args.runs):
         for epoch in tqdm(range(num_epochs), desc="Epochs"):
-            loss = train(model, data.x, data.edge_index)
+            loss = train(model, data.x, data.edge_index, precalculated)
 
         result = test(model, data.x, data.edge_index, data.y)
         f1mi, f1ma = result['F1Mi'], result['F1Ma']

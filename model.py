@@ -121,7 +121,7 @@ class Model(torch.nn.Module):
         intra_view = (refl_sim * C_mask).sum(dim=1)
 
         C_sizes = C.sum(dim=1)
-        LS = (inter_view + intra_view) * C_sizes / N
+        LS = (inter_view + intra_view) / (2 * C_sizes)
 
         # Global similarity
 
@@ -137,10 +137,10 @@ class Model(torch.nn.Module):
         intra_view = (refl_sim * weighted_B).sum(dim=1)
 
         B_sizes = B_mask.sum(dim=1)
-        GS = (inter_view + intra_view) * B_sizes / N
+        GS = (inter_view + intra_view) / (2 * B_sizes)
 
         pairwise_weighted = (1 - W) * PS
-        local_global_weighted = W * (LS + GS)
+        local_global_weighted = W * (LS + GS) / 2
 
         return -torch.log((pairwise_weighted + local_global_weighted) / DN)
 

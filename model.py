@@ -102,7 +102,7 @@ class Model(torch.nn.Module):
         N = z1.size(0)
         eye = torch.eye(N)
 
-        C, B, D, W = precalculated["C"], precalculated["B"], precalculated["D"], precalculated["W"]
+        C, B, D, LW, GW = precalculated["C"], precalculated["B"], precalculated["D"], precalculated["LW"], precalculated["GW"]
 
         def f(x): return torch.exp(x / self.tau)
         refl_sim = f(self.sim(z1, z1))
@@ -139,10 +139,11 @@ class Model(torch.nn.Module):
         B_sizes = B_mask.sum(dim=1)
         GS = (inter_view + intra_view) / (2 * B_sizes)
 
-        pairwise_weighted = (1 - W) * PS
-        local_global_weighted = W * (LS + GS) / 2
+        pairwise_weighted = -torch.log(PS/DN) * (1 - LW - GW)
+        local_weighted =  -torch.log(LS/DN) * LW
+        global_weighted = -torch.log(GS/DN) * GW
 
-        return -torch.log((pairwise_weighted + local_global_weighted) / DN)
+        return pairwise_weighted + local_weighted + global_weighted
 
     def loss(self, z1: torch.Tensor, z2: torch.Tensor, precalculated,
              mean: bool = True, batch_size: int = 0):

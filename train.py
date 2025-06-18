@@ -78,7 +78,8 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, required=True)
     parser.add_argument('--config', type=str, default='config.yaml')
     parser.add_argument('--drop_scheme', type=str, default='uniform')
-    parser.add_argument('--local_global_weight', type=float, default=0)
+    parser.add_argument('--local_weight', type=float, default=0)
+    parser.add_argument('--global_weight', type=float, default=0)
     parser.add_argument('--runs', type=int, default=1)
     args = parser.parse_args()
 
@@ -125,12 +126,12 @@ if __name__ == '__main__':
     model = Model(encoder, num_hidden, num_proj_hidden, tau).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
-    if args.local_global_weight > 0:
+    if args.local_weight + args.global_weight > 0:
         num_nodes = int(data.edge_index.max()) + 1
         C = precalculation.compute_C(data.edge_index)
         B = precalculation.compute_B(data.edge_index, C)
         D = degree(data.edge_index[0], num_nodes=num_nodes)
-        precalculated = {"C": C, "B": B, "D": D, "W": args.local_global_weight}
+        precalculated = {"C": C, "B": B, "D": D, "LW": args.local_weight, "GW": args.global_weight}
     else:
         precalculated = None
 

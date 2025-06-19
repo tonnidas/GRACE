@@ -93,3 +93,29 @@ def generate_split(num_samples: int, train_ratio: float, val_ratio: float):
     val_mask[idx_val] = True
 
     return train_mask, test_mask, val_mask
+
+def schedule_weights(epoch, total_epochs):
+    W_start = torch.tensor([0.5, 0.5, 0.0]) # pairwise, local, global
+    W_mid   = torch.tensor([0.4, 0.3, 0.3])
+    W_end   = torch.tensor([0.5, 0.1, 0.4])
+
+    if epoch < total_epochs // 2:
+        alpha = epoch / (total_epochs // 2)
+        W = (1 - alpha) * W_start + alpha * W_mid
+    else:
+        alpha = (epoch - total_epochs // 2) / (total_epochs // 2)
+        W = (1 - alpha) * W_mid + alpha * W_end
+
+    return W
+
+def grid_search_weights():
+    import itertools
+    import numpy as np
+
+    steps = np.arange(0.0, 1.1, 0.1)
+    weight_grid = [
+        (w0, w1, 1 - w0 - w1)
+        for w0, w1 in itertools.product(steps, steps)
+        if 0 <= (1 - w0 - w1) <= 1
+    ]
+    return weight_grid

@@ -14,7 +14,7 @@ from eval import label_classification
 import gca
 import experiment, precalculation
 from dataset import get_dataset
-from utils import get_activation, get_base_model, drop_edge_weighted, drop_feature_weighted, drop_feature
+from utils import get_activation, get_base_model, drop_edge_weighted, drop_feature_weighted, drop_feature, grid_search_weights
 
 
 def _drop_edge(edge_index, drop_edge_rate):
@@ -31,15 +31,15 @@ def _drop_feature(x, drop_feature_rate):
         return drop_feature(x, drop_feature_rate)
 
 
-def train(model: Model, x, edge_index, precalculated):
+def train(model: Model, optimizer):
     model.train()
     optimizer.zero_grad()
 
-    edge_index_1 = _drop_edge(edge_index, drop_edge_rate_1)
-    edge_index_2 = _drop_edge(edge_index, drop_edge_rate_2)
+    edge_index_1 = _drop_edge(data.edge_index, drop_edge_rate_1)
+    edge_index_2 = _drop_edge(data.edge_index, drop_edge_rate_2)
 
-    x_1 = _drop_feature(x, drop_feature_rate_1)
-    x_2 = _drop_feature(x, drop_feature_rate_2)
+    x_1 = _drop_feature(data.x, drop_feature_rate_1)
+    x_2 = _drop_feature(data.x, drop_feature_rate_2)
 
     z1 = model(x_1, edge_index_1)
     z2 = model(x_2, edge_index_2)
@@ -51,10 +51,10 @@ def train(model: Model, x, edge_index, precalculated):
     return loss.item()
 
 
-def test(model: Model, x, edge_index, y):
+def test(model: Model):
     model.eval()
-    z = model(x, edge_index)
-    return label_classification(z, y, ratio=0.1)
+    z = model(data.x, data.edge_index)
+    return label_classification(z, data.y, ratio=0.1)
 
 
 def get_drop_probs():
@@ -72,6 +72,51 @@ def get_drop_probs():
 
     return drop_edge_probs, drop_feature_probs
 
+def single_run():
+    # Initialize model and optimizer for each run
+    encoder = Encoder(dataset.num_features, num_hidden, activation, base_model=base_model, k=num_layers).to(device)
+    model = Model(encoder, num_hidden, num_proj_hidden, tau).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+
+    for epoch in tqdm(range(num_epochs), desc="Epochs"):
+        loss = train(model, optimizer)
+
+    result = test(model)
+    f1mi, f1ma = result['F1Mi'], result['F1Ma']
+    print(f"F1Mi: {f1mi['mean']:.4f}±{f1mi['std']:.4f}, F1Ma: {f1ma['mean']:.4f}±{f1ma['std']:.4f}")
+
+    return f1mi['mean'], f1ma['mean']
+
+def multiple_runs():
+    results_f1mi = []
+    results_f1ma = []
+
+    for run in range(args.runs):
+        print("Run:", run)
+        f1mi, f1ma = single_run()
+        results_f1mi.append(f1mi)
+        results_f1ma.append(f1ma)
+    
+    avg_f1mi = np.mean(results_f1mi)
+    avg_f1ma = np.mean(results_f1ma)
+    print(f"Total runs: {args.runs}, avg F1Mi: {avg_f1mi:.4f}, avg F1Ma: {avg_f1ma:.4f}")
+    
+    return avg_f1mi, avg_f1ma
+
+def grid_search_run():
+    best_f1 = -1
+    best_weights = None
+
+    for w0, w1, w2 in grid_search_weights():
+        print("Grid serach weights:", w0, w1, w2)
+        precalculated["LW"], precalculated["GW"] = w1, w2
+        avg_f1mi, avg_f1ma = multiple_runs()
+
+        if avg_f1mi > best_f1:
+            best_f1 = avg_f1mi
+            best_weights = (w0, w1, w2)
+        
+        print(f"Best F1Mi: {best_f1:.4f} with weights: Pairwise={best_weights[0]:.2f}, Local={best_weights[1]:.2f}, Global={best_weights[2]:.2f}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -122,10 +167,6 @@ if __name__ == '__main__':
     if drop_feature_probs is not None:
         drop_feature_probs = drop_feature_probs.to(device)
 
-    encoder = Encoder(dataset.num_features, num_hidden, activation, base_model=base_model, k=num_layers).to(device)
-    model = Model(encoder, num_hidden, num_proj_hidden, tau).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
-
     if args.local_weight + args.global_weight > 0:
         num_nodes = int(data.edge_index.max()) + 1
         C = precalculation.compute_C(data.edge_index)
@@ -135,18 +176,4 @@ if __name__ == '__main__':
     else:
         precalculated = None
 
-    results_f1mi = []
-    results_f1ma = []
-    for run in range(args.runs):
-        for epoch in tqdm(range(num_epochs), desc="Epochs"):
-            loss = train(model, data.x, data.edge_index, precalculated)
-
-        result = test(model, data.x, data.edge_index, data.y)
-        f1mi, f1ma = result['F1Mi'], result['F1Ma']
-        print(f"Run: {run}, F1Mi: {f1mi['mean']:.4f}+-{f1mi['std']:.4f}, F1Ma: {f1ma['mean']:.4f}+-{f1ma['std']:.4f}")
-
-        results_f1mi.append(f1mi['mean'])
-        results_f1ma.append(f1ma['mean'])
-
-    print("=== Final ===")
-    print(f"F1Mi: {np.mean(results_f1mi):.4f}, F1Ma: {np.mean(results_f1ma):.4f}")
+    grid_search_run()

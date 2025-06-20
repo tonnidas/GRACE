@@ -169,9 +169,9 @@ if __name__ == '__main__':
 
     if args.local_weight + args.global_weight > 0:
         num_nodes = int(data.edge_index.max()) + 1
-        C = precalculation.compute_C(data.edge_index)
-        B = precalculation.compute_B(data.edge_index, C)
-        D = degree(data.edge_index[0], num_nodes=num_nodes)
+        C = precalculation.compute_C(data.edge_index).to(device)
+        B = precalculation.compute_B(data.edge_index, C).to(device)
+        D = degree(data.edge_index[0], num_nodes=num_nodes).to(device)
         precalculated = {"C": C, "B": B, "D": D, "LW": args.local_weight, "GW": args.global_weight}
     else:
         precalculated = None

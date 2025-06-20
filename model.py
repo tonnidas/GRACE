@@ -100,7 +100,7 @@ class Model(torch.nn.Module):
 
     def local_global_semi_loss(self, z1: torch.Tensor, z2: torch.Tensor, precalculated):        
         N = z1.size(0)
-        eye = torch.eye(N)
+        eye = torch.eye(N).to(z1.device)
 
         C, B, D, LW, GW = precalculated["C"], precalculated["B"], precalculated["D"], precalculated["LW"], precalculated["GW"]
 

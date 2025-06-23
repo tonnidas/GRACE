@@ -78,7 +78,7 @@ def single_run():
     model = Model(encoder, num_hidden, num_proj_hidden, tau).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
-    for epoch in tqdm(range(num_epochs), desc="Epochs"):
+    for epoch in range(num_epochs): # tqdm(range(num_epochs), desc="Epochs"):
         loss = train(model, optimizer)
 
     result = test(model)
@@ -108,7 +108,7 @@ def grid_search_run():
     best_weights = None
 
     for w0, w1, w2 in grid_search_weights():
-        print("Grid serach weights:", w0, w1, w2)
+        print("Grid search weights:", w0, w1, w2)
         precalculated["LW"], precalculated["GW"] = w1, w2
         avg_f1mi, avg_f1ma = multiple_runs()
 
@@ -176,4 +176,4 @@ if __name__ == '__main__':
     else:
         precalculated = None
 
-    grid_search_run()
+    multiple_runs()

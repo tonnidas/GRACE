@@ -1,0 +1,401 @@
+/home/juit/workspace/GRACE
+conda 22.9.0
+Python 3.11.11
+args: Namespace(dataset='CiteSeer', config='config.yaml', drop_scheme='uniform', local_weight=0.3, global_weight=0, runs=3)
+config: {'seed': 38108, 'learning_rate': 0.001, 'num_hidden': 256, 'num_proj_hidden': 256, 'activation': 'prelu', 'base_model': 'GCNConv', 'num_layers': 2, 'drop_edge_rate_1': 0.2, 'drop_edge_rate_2': 0.0, 'drop_feature_rate_1': 0.3, 'drop_feature_rate_2': 0.2, 'tau': 0.9, 'num_epochs': 200, 'weight_decay': 1e-05}
+Running on device: cuda
+Number of communities: 470
+Grid serach weights: 0.0 0.0 1.0
+Run: 0F1Mi: 0.5534±0.0030, F1Ma: 0.5042±0.0027
+Run: 1F1Mi: 0.5536±0.0009, F1Ma: 0.5067±0.0063
+Run: 2F1Mi: 0.5702±0.0216, F1Ma: 0.5223±0.0262
+Total runs: 3, avg F1Mi: 0.5590, avg F1Ma: 0.5111
+Best F1Mi: 0.5590 with weights: Pairwise=0.00, Local=0.00, Global=1.00
+Grid serach weights: 0.0 0.1 0.9
+Run: 0F1Mi: 0.6467±0.0011, F1Ma: 0.5865±0.0041
+Run: 1F1Mi: 0.6388±0.0081, F1Ma: 0.5846±0.0009
+Run: 2F1Mi: 0.6348±0.0047, F1Ma: 0.5827±0.0107
+Total runs: 3, avg F1Mi: 0.6401, avg F1Ma: 0.5846
+Best F1Mi: 0.6401 with weights: Pairwise=0.00, Local=0.10, Global=0.90
+Grid serach weights: 0.0 0.2 0.8
+Run: 0F1Mi: 0.6443±0.0201, F1Ma: 0.5941±0.0250
+Run: 1F1Mi: 0.6414±0.0125, F1Ma: 0.5845±0.0135
+Run: 2F1Mi: 0.6420±0.0122, F1Ma: 0.5920±0.0100
+Total runs: 3, avg F1Mi: 0.6426, avg F1Ma: 0.5902
+Best F1Mi: 0.6426 with weights: Pairwise=0.00, Local=0.20, Global=0.80
+Grid serach weights: 0.0 0.30000000000000004 0.7
+Run: 0F1Mi: 0.6553±0.0016, F1Ma: 0.6064±0.0088
+Run: 1F1Mi: 0.6460±0.0061, F1Ma: 0.5917±0.0125
+Run: 2F1Mi: 0.6591±0.0059, F1Ma: 0.6150±0.0080
+Total runs: 3, avg F1Mi: 0.6535, avg F1Ma: 0.6044
+Best F1Mi: 0.6535 with weights: Pairwise=0.00, Local=0.30, Global=0.70
+Grid serach weights: 0.0 0.4 0.6
+Run: 0F1Mi: 0.6509±0.0086, F1Ma: 0.6064±0.0141
+Run: 1F1Mi: 0.6663±0.0103, F1Ma: 0.6102±0.0039
+Run: 2F1Mi: 0.6460±0.0019, F1Ma: 0.5910±0.0122
+Total runs: 3, avg F1Mi: 0.6544, avg F1Ma: 0.6025
+Best F1Mi: 0.6544 with weights: Pairwise=0.00, Local=0.40, Global=0.60
+Grid serach weights: 0.0 0.5 0.5
+Run: 0F1Mi: 0.6475±0.0150, F1Ma: 0.5971±0.0061
+Run: 1F1Mi: 0.6630±0.0014, F1Ma: 0.6075±0.0033
+Run: 2F1Mi: 0.6621±0.0104, F1Ma: 0.5964±0.0185
+Total runs: 3, avg F1Mi: 0.6575, avg F1Ma: 0.6003
+Best F1Mi: 0.6575 with weights: Pairwise=0.00, Local=0.50, Global=0.50
+Grid serach weights: 0.0 0.6000000000000001 0.3999999999999999
+Run: 0F1Mi: 0.6457±0.0039, F1Ma: 0.5927±0.0058
+Run: 1F1Mi: 0.6552±0.0055, F1Ma: 0.6012±0.0112
+Run: 2F1Mi: 0.6563±0.0063, F1Ma: 0.5961±0.0034
+Total runs: 3, avg F1Mi: 0.6524, avg F1Ma: 0.5966
+Best F1Mi: 0.6575 with weights: Pairwise=0.00, Local=0.50, Global=0.50
+Grid serach weights: 0.0 0.7000000000000001 0.29999999999999993
+Run: 0F1Mi: 0.6611±0.0076, F1Ma: 0.6108±0.0081
+Run: 1F1Mi: 0.6721±0.0064, F1Ma: 0.6118±0.0048
+Run: 2F1Mi: 0.6584±0.0111, F1Ma: 0.6111±0.0114
+Total runs: 3, avg F1Mi: 0.6639, avg F1Ma: 0.6112
+Best F1Mi: 0.6639 with weights: Pairwise=0.00, Local=0.70, Global=0.30
+Grid serach weights: 0.0 0.8 0.19999999999999996
+Run: 0F1Mi: 0.6715±0.0127, F1Ma: 0.6006±0.0188
+Run: 1F1Mi: 0.6677±0.0116, F1Ma: 0.6023±0.0190
+Run: 2F1Mi: 0.6640±0.0013, F1Ma: 0.6004±0.0077
+Total runs: 3, avg F1Mi: 0.6677, avg F1Ma: 0.6011
+Best F1Mi: 0.6677 with weights: Pairwise=0.00, Local=0.80, Global=0.20
+Grid serach weights: 0.0 0.9 0.09999999999999998
+Run: 0F1Mi: 0.6730±0.0085, F1Ma: 0.5979±0.0132
+Run: 1F1Mi: 0.6634±0.0028, F1Ma: 0.6038±0.0152
+Run: 2F1Mi: 0.6739±0.0059, F1Ma: 0.6139±0.0089
+Total runs: 3, avg F1Mi: 0.6701, avg F1Ma: 0.6052
+Best F1Mi: 0.6701 with weights: Pairwise=0.00, Local=0.90, Global=0.10
+Grid serach weights: 0.0 1.0 0.0
+Run: 0F1Mi: 0.6782±0.0068, F1Ma: 0.6278±0.0066
+Run: 1F1Mi: 0.6971±0.0037, F1Ma: 0.6218±0.0059
+Run: 2F1Mi: 0.6829±0.0096, F1Ma: 0.6197±0.0173
+Total runs: 3, avg F1Mi: 0.6861, avg F1Ma: 0.6231
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.0 0.9
+Run: 0F1Mi: 0.6152±0.0050, F1Ma: 0.5627±0.0063
+Run: 1F1Mi: 0.5816±0.0076, F1Ma: 0.5322±0.0094
+Run: 2F1Mi: 0.6446±0.0016, F1Ma: 0.5964±0.0014
+Total runs: 3, avg F1Mi: 0.6138, avg F1Ma: 0.5638
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.1 0.8
+Run: 0F1Mi: 0.6440±0.0040, F1Ma: 0.5908±0.0046
+Run: 1F1Mi: 0.6298±0.0089, F1Ma: 0.5808±0.0095
+Run: 2F1Mi: 0.6485±0.0057, F1Ma: 0.5953±0.0030
+Total runs: 3, avg F1Mi: 0.6408, avg F1Ma: 0.5890
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.2 0.7
+Run: 0F1Mi: 0.6427±0.0074, F1Ma: 0.5897±0.0046
+Run: 1F1Mi: 0.6550±0.0043, F1Ma: 0.5957±0.0028
+Run: 2F1Mi: 0.6430±0.0054, F1Ma: 0.5906±0.0020
+Total runs: 3, avg F1Mi: 0.6469, avg F1Ma: 0.5920
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.30000000000000004 0.6
+Run: 0F1Mi: 0.6709±0.0060, F1Ma: 0.6126±0.0084
+Run: 1F1Mi: 0.6504±0.0070, F1Ma: 0.5965±0.0062
+Run: 2F1Mi: 0.6691±0.0095, F1Ma: 0.6200±0.0035
+Total runs: 3, avg F1Mi: 0.6635, avg F1Ma: 0.6097
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.4 0.5
+Run: 0F1Mi: 0.6636±0.0036, F1Ma: 0.6071±0.0063
+Run: 1F1Mi: 0.6757±0.0100, F1Ma: 0.6204±0.0114
+Run: 2F1Mi: 0.6792±0.0023, F1Ma: 0.6165±0.0182
+Total runs: 3, avg F1Mi: 0.6728, avg F1Ma: 0.6146
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.5 0.4
+Run: 0F1Mi: 0.6589±0.0081, F1Ma: 0.6039±0.0107
+Run: 1F1Mi: 0.6539±0.0107, F1Ma: 0.5977±0.0113
+Run: 2F1Mi: 0.6629±0.0023, F1Ma: 0.6169±0.0050
+Total runs: 3, avg F1Mi: 0.6585, avg F1Ma: 0.6061
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.6000000000000001 0.29999999999999993
+Run: 0F1Mi: 0.6519±0.0061, F1Ma: 0.6022±0.0139
+Run: 1F1Mi: 0.6792±0.0032, F1Ma: 0.6131±0.0161
+Run: 2F1Mi: 0.6637±0.0058, F1Ma: 0.6078±0.0075
+Total runs: 3, avg F1Mi: 0.6649, avg F1Ma: 0.6077
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.7000000000000001 0.19999999999999996
+Run: 0F1Mi: 0.6718±0.0043, F1Ma: 0.6106±0.0086
+Run: 1F1Mi: 0.6622±0.0120, F1Ma: 0.6161±0.0068
+Run: 2F1Mi: 0.6756±0.0091, F1Ma: 0.6287±0.0092
+Total runs: 3, avg F1Mi: 0.6699, avg F1Ma: 0.6185
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.8 0.09999999999999998
+Run: 0F1Mi: 0.6611±0.0081, F1Ma: 0.6035±0.0148
+Run: 1F1Mi: 0.6441±0.0035, F1Ma: 0.6061±0.0035
+Run: 2F1Mi: 0.6613±0.0072, F1Ma: 0.6036±0.0073
+Total runs: 3, avg F1Mi: 0.6555, avg F1Ma: 0.6044
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.1 0.9 0.0
+Run: 0F1Mi: 0.6501±0.0124, F1Ma: 0.6014±0.0145
+Run: 1F1Mi: 0.6614±0.0038, F1Ma: 0.6107±0.0100
+Run: 2F1Mi: 0.6577±0.0040, F1Ma: 0.6062±0.0093
+Total runs: 3, avg F1Mi: 0.6564, avg F1Ma: 0.6061
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.2 0.0 0.8
+Run: 0F1Mi: 0.5942±0.0238, F1Ma: 0.5542±0.0185
+Run: 1F1Mi: 0.5555±0.0104, F1Ma: 0.5134±0.0127
+Run: 2F1Mi: 0.5657±0.0091, F1Ma: 0.5285±0.0090
+Total runs: 3, avg F1Mi: 0.5718, avg F1Ma: 0.5320
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.2 0.1 0.7000000000000001
+Run: 0F1Mi: 0.6513±0.0026, F1Ma: 0.5998±0.0073
+Run: 1F1Mi: 0.6358±0.0043, F1Ma: 0.5824±0.0083
+Run: 2F1Mi: 0.6454±0.0112, F1Ma: 0.5978±0.0168
+Total runs: 3, avg F1Mi: 0.6442, avg F1Ma: 0.5933
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.2 0.2 0.6000000000000001
+Run: 0F1Mi: 0.6366±0.0127, F1Ma: 0.5948±0.0059
+Run: 1F1Mi: 0.6218±0.0198, F1Ma: 0.5721±0.0166
+Run: 2F1Mi: 0.6339±0.0151, F1Ma: 0.5824±0.0122
+Total runs: 3, avg F1Mi: 0.6308, avg F1Ma: 0.5831
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.2 0.30000000000000004 0.5
+Run: 0F1Mi: 0.6341±0.0244, F1Ma: 0.5811±0.0178
+Run: 1F1Mi: 0.6325±0.0099, F1Ma: 0.5906±0.0100
+Run: 2F1Mi: 0.6083±0.0059, F1Ma: 0.5648±0.0130
+Total runs: 3, avg F1Mi: 0.6250, avg F1Ma: 0.5788
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.2 0.4 0.4
+Run: 0F1Mi: 0.6459±0.0081, F1Ma: 0.5970±0.0026
+Run: 1F1Mi: 0.6147±0.0018, F1Ma: 0.5695±0.0062
+Run: 2F1Mi: 0.6104±0.0244, F1Ma: 0.5699±0.0210
+Total runs: 3, avg F1Mi: 0.6236, avg F1Ma: 0.5788
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.2 0.5 0.30000000000000004
+Run: 0F1Mi: 0.6266±0.0029, F1Ma: 0.5732±0.0040
+Run: 1F1Mi: 0.6335±0.0104, F1Ma: 0.5912±0.0070
+Run: 2F1Mi: 0.6191±0.0118, F1Ma: 0.5725±0.0165
+Total runs: 3, avg F1Mi: 0.6264, avg F1Ma: 0.5790
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.2 0.6000000000000001 0.19999999999999996
+Run: 0F1Mi: 0.6226±0.0172, F1Ma: 0.5843±0.0158
+Run: 1F1Mi: 0.6092±0.0022, F1Ma: 0.5678±0.0017
+Run: 2F1Mi: 0.6343±0.0150, F1Ma: 0.5766±0.0154
+Total runs: 3, avg F1Mi: 0.6220, avg F1Ma: 0.5762
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.2 0.7000000000000001 0.09999999999999998
+Run: 0F1Mi: 0.6365±0.0094, F1Ma: 0.5861±0.0041
+Run: 1F1Mi: 0.6180±0.0140, F1Ma: 0.5649±0.0201
+Run: 2F1Mi: 0.6432±0.0043, F1Ma: 0.6028±0.0075
+Total runs: 3, avg F1Mi: 0.6326, avg F1Ma: 0.5846
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.2 0.8 0.0
+Run: 0F1Mi: 0.6373±0.0072, F1Ma: 0.5892±0.0079
+Run: 1F1Mi: 0.6299±0.0068, F1Ma: 0.5751±0.0108
+Run: 2F1Mi: 0.6413±0.0079, F1Ma: 0.5910±0.0097
+Total runs: 3, avg F1Mi: 0.6362, avg F1Ma: 0.5851
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.30000000000000004 0.0 0.7
+Run: 0F1Mi: 0.5589±0.0106, F1Ma: 0.5167±0.0107
+Run: 1F1Mi: 0.5648±0.0069, F1Ma: 0.5265±0.0053
+Run: 2F1Mi: 0.5346±0.0069, F1Ma: 0.4966±0.0125
+Total runs: 3, avg F1Mi: 0.5528, avg F1Ma: 0.5133
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.30000000000000004 0.1 0.6
+Run: 0F1Mi: 0.6454±0.0107, F1Ma: 0.5944±0.0020
+Run: 1F1Mi: 0.6373±0.0097, F1Ma: 0.5919±0.0105
+Run: 2F1Mi: 0.6447±0.0062, F1Ma: 0.5955±0.0081
+Total runs: 3, avg F1Mi: 0.6425, avg F1Ma: 0.5940
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.30000000000000004 0.2 0.49999999999999994
+Run: 0F1Mi: 0.6199±0.0113, F1Ma: 0.5759±0.0117
+Run: 1F1Mi: 0.6290±0.0040, F1Ma: 0.5767±0.0092
+Run: 2F1Mi: 0.6131±0.0122, F1Ma: 0.5740±0.0110
+Total runs: 3, avg F1Mi: 0.6207, avg F1Ma: 0.5755
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.30000000000000004 0.30000000000000004 0.3999999999999999
+Run: 0F1Mi: 0.6198±0.0115, F1Ma: 0.5725±0.0103
+Run: 1F1Mi: 0.6199±0.0085, F1Ma: 0.5692±0.0122
+Run: 2F1Mi: 0.5913±0.0146, F1Ma: 0.5526±0.0107
+Total runs: 3, avg F1Mi: 0.6104, avg F1Ma: 0.5648
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.30000000000000004 0.4 0.29999999999999993
+Run: 0F1Mi: 0.6065±0.0214, F1Ma: 0.5630±0.0155
+Run: 1F1Mi: 0.6144±0.0085, F1Ma: 0.5669±0.0072
+Run: 2F1Mi: 0.6191±0.0107, F1Ma: 0.5771±0.0077
+Total runs: 3, avg F1Mi: 0.6133, avg F1Ma: 0.5690
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.30000000000000004 0.5 0.19999999999999996
+Run: 0F1Mi: 0.6224±0.0149, F1Ma: 0.5797±0.0148
+Run: 1F1Mi: 0.6178±0.0091, F1Ma: 0.5737±0.0109
+Run: 2F1Mi: 0.6065±0.0161, F1Ma: 0.5604±0.0201
+Total runs: 3, avg F1Mi: 0.6155, avg F1Ma: 0.5713
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.30000000000000004 0.6000000000000001 0.09999999999999987
+Run: 0F1Mi: 0.6295±0.0042, F1Ma: 0.5839±0.0067
+Run: 1F1Mi: 0.6079±0.0112, F1Ma: 0.5670±0.0108
+Run: 2F1Mi: 0.6204±0.0087, F1Ma: 0.5802±0.0108
+Total runs: 3, avg F1Mi: 0.6193, avg F1Ma: 0.5770
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.4 0.0 0.6
+Run: 0F1Mi: 0.5898±0.0137, F1Ma: 0.5581±0.0198
+Run: 1F1Mi: 0.5801±0.0241, F1Ma: 0.5483±0.0195
+Run: 2F1Mi: 0.5873±0.0142, F1Ma: 0.5537±0.0102
+Total runs: 3, avg F1Mi: 0.5857, avg F1Ma: 0.5533
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.4 0.1 0.5
+Run: 0F1Mi: 0.6292±0.0078, F1Ma: 0.5878±0.0064
+Run: 1F1Mi: 0.6472±0.0149, F1Ma: 0.5991±0.0123
+Run: 2F1Mi: 0.6348±0.0049, F1Ma: 0.5859±0.0040
+Total runs: 3, avg F1Mi: 0.6371, avg F1Ma: 0.5909
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.4 0.2 0.39999999999999997
+Run: 0F1Mi: 0.6177±0.0082, F1Ma: 0.5620±0.0094
+Run: 1F1Mi: 0.6035±0.0204, F1Ma: 0.5609±0.0184
+Run: 2F1Mi: 0.6186±0.0076, F1Ma: 0.5742±0.0064
+Total runs: 3, avg F1Mi: 0.6132, avg F1Ma: 0.5657
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.4 0.30000000000000004 0.29999999999999993
+Run: 0F1Mi: 0.6243±0.0084, F1Ma: 0.5750±0.0149
+Run: 1F1Mi: 0.6178±0.0026, F1Ma: 0.5714±0.0070
+Run: 2F1Mi: 0.6154±0.0144, F1Ma: 0.5698±0.0098
+Total runs: 3, avg F1Mi: 0.6191, avg F1Ma: 0.5721
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.4 0.4 0.19999999999999996
+Run: 0F1Mi: 0.6091±0.0059, F1Ma: 0.5618±0.0096
+Run: 1F1Mi: 0.6156±0.0082, F1Ma: 0.5575±0.0166
+Run: 2F1Mi: 0.5997±0.0025, F1Ma: 0.5534±0.0087
+Total runs: 3, avg F1Mi: 0.6081, avg F1Ma: 0.5576
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.4 0.5 0.09999999999999998
+Run: 0F1Mi: 0.6183±0.0061, F1Ma: 0.5679±0.0043
+Run: 1F1Mi: 0.6010±0.0010, F1Ma: 0.5538±0.0046
+Run: 2F1Mi: 0.6168±0.0106, F1Ma: 0.5779±0.0121
+Total runs: 3, avg F1Mi: 0.6120, avg F1Ma: 0.5665
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.5 0.0 0.5
+Run: 0F1Mi: 0.6267±0.0042, F1Ma: 0.5862±0.0062
+Run: 1F1Mi: 0.6234±0.0158, F1Ma: 0.5848±0.0160
+Run: 2F1Mi: 0.6331±0.0042, F1Ma: 0.5910±0.0059
+Total runs: 3, avg F1Mi: 0.6277, avg F1Ma: 0.5873
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.5 0.1 0.4
+Run: 0F1Mi: 0.6496±0.0088, F1Ma: 0.5987±0.0078
+Run: 1F1Mi: 0.6393±0.0048, F1Ma: 0.5893±0.0013
+Run: 2F1Mi: 0.6531±0.0017, F1Ma: 0.6114±0.0091
+Total runs: 3, avg F1Mi: 0.6473, avg F1Ma: 0.5998
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.5 0.2 0.3
+Run: 0F1Mi: 0.6240±0.0187, F1Ma: 0.5765±0.0159
+Run: 1F1Mi: 0.6185±0.0023, F1Ma: 0.5733±0.0050
+Run: 2F1Mi: 0.6245±0.0021, F1Ma: 0.5784±0.0093
+Total runs: 3, avg F1Mi: 0.6223, avg F1Ma: 0.5761
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.5 0.30000000000000004 0.19999999999999996
+Run: 0F1Mi: 0.6343±0.0079, F1Ma: 0.5855±0.0111
+Run: 1F1Mi: 0.6234±0.0085, F1Ma: 0.5825±0.0073
+Run: 2F1Mi: 0.6091±0.0070, F1Ma: 0.5658±0.0094
+Total runs: 3, avg F1Mi: 0.6223, avg F1Ma: 0.5779
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.5 0.4 0.09999999999999998
+Run: 0F1Mi: 0.6061±0.0093, F1Ma: 0.5643±0.0077
+Run: 1F1Mi: 0.6059±0.0044, F1Ma: 0.5627±0.0089
+Run: 2F1Mi: 0.6151±0.0169, F1Ma: 0.5763±0.0149
+Total runs: 3, avg F1Mi: 0.6091, avg F1Ma: 0.5678
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.5 0.5 0.0
+Run: 0F1Mi: 0.6081±0.0043, F1Ma: 0.5607±0.0157
+Run: 1F1Mi: 0.6237±0.0133, F1Ma: 0.5729±0.0089
+Run: 2F1Mi: 0.6115±0.0124, F1Ma: 0.5599±0.0166
+Total runs: 3, avg F1Mi: 0.6144, avg F1Ma: 0.5645
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.6000000000000001 0.0 0.3999999999999999
+Run: 0
+F1Mi: 0.6650±0.0125, F1Ma: 0.6188±0.0161
+Run: 1
+F1Mi: 0.6452±0.0072, F1Ma: 0.5952±0.0089
+Run: 2
+F1Mi: 0.6463±0.0076, F1Ma: 0.5967±0.0057
+Total runs: 3, avg F1Mi: 0.6522, avg F1Ma: 0.6036
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.6000000000000001 0.1 0.29999999999999993
+Run: 0
+F1Mi: 0.6475±0.0128, F1Ma: 0.6002±0.0094
+Run: 1
+F1Mi: 0.6536±0.0092, F1Ma: 0.6036±0.0041
+Run: 2
+F1Mi: 0.6472±0.0100, F1Ma: 0.5956±0.0087
+Total runs: 3, avg F1Mi: 0.6495, avg F1Ma: 0.5998
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.6000000000000001 0.2 0.1999999999999999
+Run: 0
+F1Mi: 0.6309±0.0024, F1Ma: 0.5765±0.0030
+Run: 1
+F1Mi: 0.6357±0.0106, F1Ma: 0.5789±0.0116
+Run: 2
+F1Mi: 0.6272±0.0189, F1Ma: 0.5764±0.0206
+Total runs: 3, avg F1Mi: 0.6313, avg F1Ma: 0.5773
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.6000000000000001 0.30000000000000004 0.09999999999999987
+Run: 0
+F1Mi: 0.6152±0.0110, F1Ma: 0.5598±0.0165
+Run: 1
+F1Mi: 0.6336±0.0039, F1Ma: 0.5821±0.0057
+Run: 2
+F1Mi: 0.6286±0.0127, F1Ma: 0.5835±0.0095
+Total runs: 3, avg F1Mi: 0.6258, avg F1Ma: 0.5751
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.7000000000000001 0.0 0.29999999999999993
+Run: 0
+F1Mi: 0.6904±0.0080, F1Ma: 0.6414±0.0065
+Run: 1
+F1Mi: 0.6603±0.0192, F1Ma: 0.6162±0.0176
+Run: 2
+F1Mi: 0.6688±0.0166, F1Ma: 0.6172±0.0122
+Total runs: 3, avg F1Mi: 0.6732, avg F1Ma: 0.6250
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.7000000000000001 0.1 0.19999999999999993
+Run: 0
+F1Mi: 0.6520±0.0108, F1Ma: 0.6077±0.0099
+Run: 1
+F1Mi: 0.6452±0.0308, F1Ma: 0.6041±0.0204
+Run: 2
+F1Mi: 0.6401±0.0071, F1Ma: 0.6027±0.0152
+Total runs: 3, avg F1Mi: 0.6457, avg F1Ma: 0.6049
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.7000000000000001 0.2 0.09999999999999992
+Run: 0
+F1Mi: 0.6366±0.0044, F1Ma: 0.5870±0.0136
+Run: 1
+F1Mi: 0.6372±0.0108, F1Ma: 0.5947±0.0070
+Run: 2
+F1Mi: 0.6326±0.0109, F1Ma: 0.5950±0.0079
+Total runs: 3, avg F1Mi: 0.6355, avg F1Ma: 0.5922
+Best F1Mi: 0.6861 with weights: Pairwise=0.00, Local=1.00, Global=0.00
+Grid serach weights: 0.8 0.0 0.19999999999999996
+Run: 0
+F1Mi: 0.6869±0.0133, F1Ma: 0.6453±0.0106
+Run: 1
+F1Mi: 0.6778±0.0061, F1Ma: 0.6226±0.0134
+Run: 2
+F1Mi: 0.6935±0.0126, F1Ma: 0.6378±0.0152
+Total runs: 3, avg F1Mi: 0.6861, avg F1Ma: 0.6352
+Best F1Mi: 0.6861 with weights: Pairwise=0.80, Local=0.00, Global=0.20
+Grid serach weights: 0.8 0.1 0.09999999999999995
+Run: 0
+F1Mi: 0.6548±0.0087, F1Ma: 0.6107±0.0124
+Run: 1
+F1Mi: 0.6551±0.0119, F1Ma: 0.6042±0.0168
+Run: 2
+F1Mi: 0.6466±0.0058, F1Ma: 0.6000±0.0059
+Total runs: 3, avg F1Mi: 0.6522, avg F1Ma: 0.6050
+Best F1Mi: 0.6861 with weights: Pairwise=0.80, Local=0.00, Global=0.20
+Grid serach weights: 0.9 0.0 0.09999999999999998
+Run: 0
+F1Mi: 0.6827±0.0155, F1Ma: 0.6389±0.0155
+Run: 1
+F1Mi: 0.6927±0.0070, F1Ma: 0.6377±0.0068
+Run: 2
+F1Mi: 0.6721±0.0032, F1Ma: 0.6272±0.0082
+Total runs: 3, avg F1Mi: 0.6825, avg F1Ma: 0.6346
+Best F1Mi: 0.6861 with weights: Pairwise=0.80, Local=0.00, Global=0.20
+Grid serach weights: 1.0 0.0 0.0
+Run: 0
+F1Mi: 0.6715±0.0135, F1Ma: 0.6191±0.0027
+Run: 1
+F1Mi: 0.6691±0.0111, F1Ma: 0.6230±0.0129
+Run: 2
+F1Mi: 0.6789±0.0107, F1Ma: 0.6400±0.0062
+Total runs: 3, avg F1Mi: 0.6732, avg F1Ma: 0.6274
+Best F1Mi: 0.6861 with weights: Pairwise=0.80, Local=0.00, Global=0.20
+Start: 2025-06-19 04:49:19 CDT, End: 2025-06-19 05:24:16 CDT, Duration: 0h:34m:57s

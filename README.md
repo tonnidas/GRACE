@@ -11,3 +11,20 @@ $ pip install torch torch_geometric torch-scatter
 
 $ python train.py --dataset Cora --drop_scheme hop
 ```
+
+## Run in Baylor Kodiak
+
+### Submit a job
+
+```
+./kodiak.sh submit {job_name} "{python_args}"
+
+Example: 
+$./kodiak.sh submit cora_local_global_sim "--dataset Cora --runs 3 --local_weight 0.2 --global_weight 0.1"
+```
+
+### Get job status and download output files
+
+```
+$ ./kodiak.sh sync
+```

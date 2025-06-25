@@ -1,5 +1,7 @@
 args: Namespace(dataset='Cora', config='config.yaml', drop_scheme='uniform', local_weight=0.3, global_weight=0, runs=3)
 config: {'seed': 39788, 'learning_rate': 0.0005, 'num_hidden': 128, 'num_proj_hidden': 128, 'activation': 'relu', 'base_model': 'GCNConv', 'num_layers': 2, 'drop_edge_rate_1': 0.2, 'drop_edge_rate_2': 0.4, 'drop_feature_rate_1': 0.3, 'drop_feature_rate_2': 0.4, 'tau': 0.4, 'num_epochs': 200, 'weight_decay': 1e-05}
+Running on device: cuda
+Number of communities: 103
 
 Best F1Mi: 0.8324 with weights: Pairwise=0.70, Local=0.20, Global=0.10
 Start: 2025-06-19 04:46:58 CDT, End: 2025-06-19 05:06:15 CDT, Duration: 0h:19m:17s
@@ -8,6 +10,8 @@ Start: 2025-06-19 04:46:58 CDT, End: 2025-06-19 05:06:15 CDT, Duration: 0h:19m:1
 
 args: Namespace(dataset='CiteSeer', config='config.yaml', drop_scheme='uniform', local_weight=0.3, global_weight=0, runs=3)
 config: {'seed': 38108, 'learning_rate': 0.001, 'num_hidden': 256, 'num_proj_hidden': 256, 'activation': 'prelu', 'base_model': 'GCNConv', 'num_layers': 2, 'drop_edge_rate_1': 0.2, 'drop_edge_rate_2': 0.0, 'drop_feature_rate_1': 0.3, 'drop_feature_rate_2': 0.2, 'tau': 0.9, 'num_epochs': 200, 'weight_decay': 1e-05}
+Running on device: cuda
+Number of communities: 470
 
 Best F1Mi: 0.6861 with weights: Pairwise=0.80, Local=0.00, Global=0.20
 Start: 2025-06-19 04:49:19 CDT, End: 2025-06-19 05:24:16 CDT, Duration: 0h:34m:57s

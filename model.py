@@ -111,7 +111,7 @@ class Model(torch.nn.Module):
         # Denominator
         DN = refl_sim.sum(1) + between_sim.sum(1) - refl_sim.diag()
 
-        # Pairwise similiarity
+        # Pairwise similarity
         PS = between_sim.diag()
 
         # Local similarity

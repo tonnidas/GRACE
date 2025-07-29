@@ -29,14 +29,46 @@ def _drop_feature(x, drop_feature_rate):
         return drop_feature_weighted(x, drop_feature_probs, drop_feature_rate)
     else:
         return drop_feature(x, drop_feature_rate)
+    
+
+def balanced_partition_masks(num_nodes, device):
+    node_ids = torch.randperm(num_nodes, device=device)
+    half = num_nodes // 2
+    mask_1 = torch.zeros(num_nodes, dtype=torch.bool, device=device)
+    mask_2 = torch.zeros(num_nodes, dtype=torch.bool, device=device)
+
+    mask_1[node_ids[:half]] = True
+    mask_2[node_ids[half:]] = True
+    return mask_1, mask_2
+
+
+def _drop_edge_partitioned(edge_index, drop_edge_rate, partition_mask):
+    src_nodes = edge_index[0]
+    # Drop edges only if source node is in the partition
+    drop_mask = partition_mask[src_nodes]
+    keep_mask = ~drop_mask
+
+    # Apply edge dropout to relevant subset
+    edge_index_to_drop = edge_index[:, drop_mask]
+    edge_index_dropped, _ = dropout_edge(edge_index_to_drop, p=drop_edge_rate)
+
+    # Combine with untouched edges
+    edge_index_kept = edge_index[:, keep_mask]
+    edge_index_final = torch.cat([edge_index_dropped, edge_index_kept], dim=1)
+    return edge_index_final
 
 
 def train(model: Model, optimizer):
     model.train()
     optimizer.zero_grad()
 
-    edge_index_1 = _drop_edge(data.edge_index, drop_edge_rate_1)
-    edge_index_2 = _drop_edge(data.edge_index, drop_edge_rate_2)
+    if args.drop_scheme == 'partition':
+        partition_mask_1, partition_mask_2 = balanced_partition_masks(data.num_nodes, device=data.edge_index.device)
+        edge_index_1 = _drop_edge_partitioned(data.edge_index, drop_edge_rate_1, partition_mask_1)
+        edge_index_2 = _drop_edge_partitioned(data.edge_index, drop_edge_rate_2, partition_mask_2)
+    else:
+        edge_index_1 = _drop_edge(data.edge_index, drop_edge_rate_1)
+        edge_index_2 = _drop_edge(data.edge_index, drop_edge_rate_2)
 
     x_1 = _drop_feature(data.x, drop_feature_rate_1)
     x_2 = _drop_feature(data.x, drop_feature_rate_2)
@@ -78,7 +110,7 @@ def single_run():
     model = Model(encoder, num_hidden, num_proj_hidden, tau).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
-    for epoch in range(num_epochs): # tqdm(range(num_epochs), desc="Epochs"):
+    for epoch in tqdm(range(num_epochs), desc="Epochs"): # range(num_epochs)
         loss = train(model, optimizer)
 
     result = test(model)

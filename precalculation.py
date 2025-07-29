@@ -4,6 +4,9 @@ from torch_geometric.data import Data
 from torch_geometric.utils import to_networkx, degree
 import community as community_louvain
 
+# C = community co-membership matrix
+# This matrix encodes whether pairs of nodes belong to the same community.
+# Community is determined by the Louvain community detection algorithm.
 def compute_C(edge_index):
     num_nodes = int(edge_index.max()) + 1
 
@@ -19,6 +22,7 @@ def compute_C(edge_index):
 
     return com_mat
 
+# For each node i, B identifies high-degree nodes that are not in the same community as i.
 def compute_B(edge_index, comm_mat):
     num_nodes = int(edge_index.max()) + 1
 

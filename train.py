@@ -73,8 +73,8 @@ def train(model: Model, optimizer):
     x_1 = _drop_feature(data.x, drop_feature_rate_1)
     x_2 = _drop_feature(data.x, drop_feature_rate_2)
 
-    z1 = model(x_1, edge_index_1)
-    z2 = model(x_2, edge_index_2)
+    z1 = model(x_1, edge_index_1, 1)
+    z2 = model(x_2, edge_index_2, 2)
 
     loss = model.loss(z1, z2, precalculated, batch_size=0)
     loss.backward()
@@ -85,7 +85,14 @@ def train(model: Model, optimizer):
 
 def test(model: Model):
     model.eval()
-    z = model(data.x, data.edge_index)
+
+    if args.separate_encoder:
+        z1 = model(data.x, data.edge_index, 1)
+        z2 = model(data.x, data.edge_index, 2)
+        z = torch.cat([z1, z2], dim=1)
+    else:
+        z = model(data.x, data.edge_index, 1)
+    
     return label_classification(z, data.y, ratio=0.1)
 
 
@@ -107,7 +114,13 @@ def get_drop_probs():
 def single_run():
     # Initialize model and optimizer for each run
     encoder = Encoder(dataset.num_features, num_hidden, activation, base_model=base_model, k=num_layers).to(device)
-    model = Model(encoder, num_hidden, num_proj_hidden, tau).to(device)
+
+    if args.separate_encoder:
+        encoder_2 = Encoder(dataset.num_features, num_hidden, activation, base_model=base_model_2, k=num_layers).to(device)
+    else:
+        encoder_2 = None
+
+    model = Model(encoder, encoder_2, num_hidden, num_proj_hidden, tau).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
     for epoch in tqdm(range(num_epochs), desc="Epochs"): # range(num_epochs)
@@ -157,6 +170,7 @@ if __name__ == '__main__':
     parser.add_argument('--drop_scheme', type=str, default='uniform')
     parser.add_argument('--local_weight', type=float, default=0)
     parser.add_argument('--global_weight', type=float, default=0)
+    parser.add_argument('--separate_encoder', action='store_true')
     parser.add_argument('--runs', type=int, default=1)
     args = parser.parse_args()
 
@@ -173,6 +187,7 @@ if __name__ == '__main__':
     num_proj_hidden = config['num_proj_hidden']
     activation = get_activation(config['activation'])
     base_model = get_base_model(config['base_model'])
+    base_model_2 = get_base_model('GATConv')
     num_layers = config['num_layers']
 
     drop_edge_rate_1 = config['drop_edge_rate_1']

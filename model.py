@@ -46,17 +46,20 @@ class Encoder(torch.nn.Module):
 
 
 class Model(torch.nn.Module):
-    def __init__(self, encoder: Encoder, num_hidden: int, num_proj_hidden: int,
-                 tau: float = 0.5):
+    def __init__(self, encoder: Encoder, encoder_2: Encoder, num_hidden: int, num_proj_hidden: int, tau: float = 0.5):
         super(Model, self).__init__()
         self.encoder: Encoder = encoder
+        self.encoder_2: Encoder = encoder_2
         self.tau: float = tau
 
         self.fc1 = torch.nn.Linear(num_hidden, num_proj_hidden)
         self.fc2 = torch.nn.Linear(num_proj_hidden, num_hidden)
 
-    def forward(self, x: torch.Tensor, edge_index: torch.Tensor) -> torch.Tensor:
-        return self.encoder(x, edge_index)
+    def forward(self, x: torch.Tensor, edge_index: torch.Tensor, encoder_id: int) -> torch.Tensor:
+        if (encoder_id == 1 or self.encoder_2 is None):
+            return self.encoder(x, edge_index)
+        else:
+            return self.encoder_2(x, edge_index)
 
     def projection(self, z: torch.Tensor) -> torch.Tensor:
         z = F.elu(self.fc1(z))

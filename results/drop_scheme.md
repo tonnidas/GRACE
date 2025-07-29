@@ -30,3 +30,28 @@
 - SoftMax                                                   F1Mi: 0.9284, F1Ma: 0.9092
 
 ## Dataset: Coauthor-Phy (Epochs: 1500): Out of memory in Kodiak
+
+
+## Temp
+
+$ python train.py --dataset Cora --drop_scheme partition --local_weight 0.2 --global_weight 0.1
+
+args: Namespace(dataset='Cora', config='config.yaml', drop_scheme='partition', local_weight=0.2, global_weight=0.1, runs=1)
+config: {'seed': 39788, 'learning_rate': 0.0005, 'num_hidden': 128, 'num_proj_hidden': 128, 'activation': 'relu', 'base_model': 'GCNConv', 'num_layers': 2, 'drop_edge_rate_1': 0.2, 'drop_edge_rate_2': 0.4, 'drop_feature_rate_1': 0.3, 'drop_feature_rate_2': 0.4, 'tau': 0.4, 'num_epochs': 200, 'weight_decay': 1e-05}
+Running on device: cpu
+Number of communities: 101
+Run: 0
+Epochs: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:29<00:00,  6.69it/s]
+F1Mi: 0.8384±0.0046, F1Ma: 0.8246±0.0043
+Total runs: 1, avg F1Mi: 0.8384, avg F1Ma: 0.8246
+
+$ python train.py --dataset Cora --drop_scheme partition --local_weight 0.2 --global_weight 0.1 --separate_encoder
+
+args: Namespace(dataset='Cora', config='config.yaml', drop_scheme='partition', local_weight=0.2, global_weight=0.1, separate_encoder=True, runs=1)
+config: {'seed': 39788, 'learning_rate': 0.0005, 'num_hidden': 128, 'num_proj_hidden': 128, 'activation': 'relu', 'base_model': 'GCNConv', 'num_layers': 2, 'drop_edge_rate_1': 0.2, 'drop_edge_rate_2': 0.4, 'drop_feature_rate_1': 0.3, 'drop_feature_rate_2': 0.4, 'tau': 0.4, 'num_epochs': 200, 'weight_decay': 1e-05}
+Running on device: cpu
+Number of communities: 106
+Run: 0
+Epochs: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:31<00:00,  6.26it/s]
+F1Mi: 0.7642±0.0095, F1Ma: 0.7202±0.0136
+Total runs: 1, avg F1Mi: 0.7642, avg F1Ma: 0.7202
